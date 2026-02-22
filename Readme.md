@@ -79,5 +79,5 @@ Status: Elevated error rates
 ```
 
 # AUTHOR 
-## Ritik Chauhan
+Ritik Chauhan
 
