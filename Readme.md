@@ -1,5 +1,6 @@
-# OpenAI Status RSS Monitor
 `
+# OpenAI Status RSS Monitor
+
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
 ![AsyncIO](https://img.shields.io/badge/asyncio-supported-green)
 ![License](https://img.shields.io/badge/license-MIT-brightgreen)
