@@ -72,10 +72,11 @@ Status: Elevated error rates
 ```
 
 `
+# OpenAI Status RSS Monitor
+
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
-![Async](https://img.shields.io/badge/async-aiohttp-blueviolet)
-![RSS](https://img.shields.io/badge/RSS-monitor-orange)
-![OpenAI](https://img.shields.io/badge/OpenAI-Status-lightgrey)
-![Maintained](https://img.shields.io/badge/maintained-yes-brightgreen)
+![AsyncIO](https://img.shields.io/badge/asyncio-supported-green)
+![License](https://img.shields.io/badge/license-MIT-brightgreen)
+![Status](https://img.shields.io/badge/status-active-success)
 `
 
