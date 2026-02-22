@@ -1,4 +1,10 @@
 # OpenAI Status RSS Monitor
+`
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![AsyncIO](https://img.shields.io/badge/asyncio-supported-green)
+![License](https://img.shields.io/badge/license-MIT-brightgreen)
+![Status](https://img.shields.io/badge/status-active-success)
+`
 
 A lightweight asynchronous Python monitor that listens to the OpenAI Status RSS feed and prints real-time incident updates grouped by main product (API, ChatGPT, Sora).
 
@@ -71,12 +77,6 @@ Status: Degraded performance
 Status: Elevated error rates
 ```
 
-`
-# OpenAI Status RSS Monitor
-
-![Python](https://img.shields.io/badge/python-3.10+-blue)
-![AsyncIO](https://img.shields.io/badge/asyncio-supported-green)
-![License](https://img.shields.io/badge/license-MIT-brightgreen)
-![Status](https://img.shields.io/badge/status-active-success)
-`
+# AUTHOR 
+## Ritik Chauhan
 
