@@ -17,18 +17,18 @@ It:
 
 ## 🚀 Features
 
-✅ Async polling using aiohttp
-✅ RSS parsing with feedparser
-✅ HTML parsing via BeautifulSoup
-✅ Automatic duplicate filtering
-✅ Conditional requests using ETag / If-Modified-Since
-✅ Sub-component → Main product mapping
-✅ Timezone conversion (Asia/Kolkata)
+- ✅ Async polling using aiohttp
+- ✅ RSS parsing with feedparser
+- ✅ HTML parsing via BeautifulSoup
+- ✅ Automatic duplicate filtering
+- ✅ Conditional requests using ETag / If-Modified-Since
+- ✅ Sub-component → Main product mapping
+- ✅ Timezone conversion (Asia/Kolkata)
 
 
 ## Architecture flow 
 
-`
+```
         RSS Feed
             ↓
         Fetch with ETag headers
@@ -40,7 +40,7 @@ It:
         Map sub-component → Main product
             ↓
         Print formatted output
-`
+```
 
 ## Dependencies
 
@@ -49,22 +49,33 @@ Install Require Packages
 
 ## How To Run
 
-`py main.py`
+```py new.py```
 
 you can modify the polling interval in form "60" -> "30" second
-` asyncio.run(monitor.monitor(interval=60))`
+``` asyncio.run(monitor.monitor(interval=60))```
 
 ## customization
 To change TimeZone Modiyy this line 
-`tz.gettz("Asia/Kolkata")  ->   tz.gettz("UTC")`
+```
+tz.gettz("Asia/Kolkata")  ->   tz.gettz("UTC")
+```
 
 
 ## Console output 
 
-`
+```
 [2026-02-22 18:12:00] Product: OpenAI API - Chat Completions
 Status: Degraded performance
 
 [2026-02-22 18:18:00] Product: OpenAI ChatGPT - Conversations
 Status: Elevated error rates
+```
+
 `
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![Async](https://img.shields.io/badge/async-aiohttp-blueviolet)
+![RSS](https://img.shields.io/badge/RSS-monitor-orange)
+![OpenAI](https://img.shields.io/badge/OpenAI-Status-lightgrey)
+![Maintained](https://img.shields.io/badge/maintained-yes-brightgreen)
+`
+
