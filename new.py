@@ -52,7 +52,7 @@ class StatusMonitor:
         self.last_modified = None
         self.seen_entries = set()
 
-    async def fetch_feed(self, session):
+    async def fetch_and_process(self, session):
         headers = {}
 
         if self.etag:
@@ -60,14 +60,19 @@ class StatusMonitor:
         if self.last_modified:
             headers["If-Modified-Since"] = self.last_modified
 
-        async with session.get(self.feed_url, headers=headers) as response:
-            if response.status == 304:
-                return None
+        try:
+            async with session.get(self.feed_url, headers=headers) as response:
+                if response.status == 304:
+                    return
 
-            self.etag = response.headers.get("ETag")
-            self.last_modified = response.headers.get("Last-Modified")
+                self.etag = response.headers.get("ETag")
+                self.last_modified = response.headers.get("Last-Modified")
 
-            return await response.text()
+                raw_feed = await response.text()
+                self.process_feed(raw_feed)
+
+        except Exception as e:
+            print(f"Error: {e}")
 
     def extract_component(self, html_content):
         soup = BeautifulSoup(html_content, "html.parser")
@@ -76,10 +81,9 @@ class StatusMonitor:
         return (
             li_tag.get_text().split("(")[0].strip()
             if li_tag
-            else "No Components Affected"
+            else ""
         )
 
-    # NEW: Determine Main Product
     def get_main_product(self, sub_component):
         sub_component_lower = sub_component.lower()
 
@@ -88,7 +92,7 @@ class StatusMonitor:
                 if comp.lower() in sub_component_lower:
                     return product
 
-        return "No Main Component"
+        return ""
 
     def process_feed(self, raw_feed):
         feed = feedparser.parse(raw_feed)
@@ -108,26 +112,28 @@ class StatusMonitor:
             main_product = self.get_main_product(component)
             status_title = entry.title.strip()
 
+            # 🔥 ORIGINAL FORMAT RESTORED
             print(f"[{formatted_time}] Product: OpenAI {main_product} - {component}")
             print(f"Status: {status_title}\n")
 
-    async def monitor(self, interval=60):
-        async with aiohttp.ClientSession() as session:
-            while True:
-                try:
-                    raw_feed = await self.fetch_feed(session)
-                    if raw_feed:
-                        self.process_feed(raw_feed)
-                except Exception as e:
-                    print("Error:", e)
 
-                await asyncio.sleep(interval)
+async def monitor_all(feeds, interval=60):
+    monitors = [StatusMonitor(feed) for feed in feeds]
+
+    timeout = aiohttp.ClientTimeout(total=15)
+
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        while True:
+            tasks = [monitor.fetch_and_process(session) for monitor in monitors]
+            await asyncio.gather(*tasks, return_exceptions=True)
+            await asyncio.sleep(interval)
 
 
 if __name__ == "__main__":
-    FEED_URL = "https://status.openai.com/history.rss"
+    FEED_URLS = [
+        "https://status.openai.com/history.rss",
+        # Add more feeds here
+    ]
 
-    monitor = StatusMonitor(FEED_URL)
-    print("Listening for OpenAI Status updates...\n")
-
-    asyncio.run(monitor.monitor(interval=60))
+    print("Listening for status updates...\n")
+    asyncio.run(monitor_all(FEED_URLS, interval=60))
